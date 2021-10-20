@@ -14,6 +14,7 @@ class AuthenticateUserService {
         Accept: "application/json",
       },
     });
+
     return response.data;
   }
 }
