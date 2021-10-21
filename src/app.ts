@@ -6,16 +6,19 @@ import cors from "cors";
 import { Server } from "socket.io";
 
 const app = express();
-app.use(cors);
+app.use(cors());
 const serverHttp = http.createServer(app);
 const io = new Server(serverHttp, {
   cors: {
     origin: "*",
   },
 });
-
 app.use(express.json());
 app.use(router);
+
+io.on("connection", (socket) => {
+  console.log(`Usuário  conectado - socket id = ${socket.id}`);
+});
 
 app.get("/github", (req, res) => {
   res.redirect(
@@ -28,6 +31,4 @@ app.get("/signin/callback", (req, res) => {
   return res.json(code);
 });
 
-app.listen(3001, () => {
-  console.log("server online, running on port 3001");
-});
+export { serverHttp, io };
